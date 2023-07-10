@@ -16,7 +16,7 @@ const sender = (params) => {
 		let mailOptions = {
 			from: 'yaochaohang@foxmail.com', // 替换成自己的发件人
 			to: 'chaohang_yao@126.com', // 替换成自己的收件人
-			subject: '测试邮件发送',
+			subject: 'curriculum vitae 邮箱发',
 			html: `姓名：${params.name || ''}
 						邮箱：${params.email || ''}
 						内容：${params.message || ''}`
