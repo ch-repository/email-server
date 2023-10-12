@@ -1,0 +1,26 @@
+name: email-server
+run-name: ${{ github.actor }} email-server-run
+on:
+  push:
+    branches: ["master"] #只在master推送时执行
+  workflow_dispatch:
+jobs:
+  check-bats-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: pull code
+        uses: appleboy/ssh-action@master
+        env:
+          SERVER_WORKDIR: ${{ secrets.SERVER_WORKDIR }} #传递工作目录变量
+        with:
+          host: ${{ secrets.SERVER_HOST }} #服务器地址
+          username: ${{ secrets.SERVER_USERNAME }} #用户名
+          key: ${{ secrets.SERVER_KEY }} #私钥
+          envs: SERVER_WORKDIR #使用工作目录变量
+          # 进入到项目目录，执行指定命令进行部署
+          script: |
+            cd $SERVER_WORKDIR
+            git checkout . 
+            git pull
+            pm2 restart email-server
